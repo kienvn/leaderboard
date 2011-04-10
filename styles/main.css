@@ -1,0 +1,46 @@
+/*table {
+			width : 100%;
+			border-width: 1px;
+			padding: 1px;
+			border-style: inset;
+			border-color: gray;
+			background-color: white;
+			
+			text-align : center;
+		}
+
+		table th {
+			background-color : gray;
+		}
+
+		table td {
+			border-width: 1px;
+			padding: 0px;
+			border-style: inset;
+			border-color: gray;
+			background-color: green;
+		}
+*/
+table {
+	width: 100%;
+	border: 1px solid #cef;
+	text-align: left; }
+th {
+	font-weight: bold;
+	background-color: #acf;
+	border-bottom: 1px solid #cef; }
+td,th {
+	padding: 4px 5px; }
+
+.score {
+	background-color: #F6790C;
+}
+
+/*For table row-stripe*/
+.odd {
+	background-color: #def; 
+}
+.odd td {
+	border-bottom: 1px solid #cef; 
+}
+
