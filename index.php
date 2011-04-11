@@ -23,7 +23,7 @@ if (isset($_GET["lecture"]) && !empty($_GET["lecture"])) {
         <link rel="stylesheet" href="styles/main.css" type="text/css" media="screen" />
         <script src="javascript/namespace.js" type="text/javascript" language="javascript" charset="utf-8"></script>
         <script src="http://code.jquery.com/jquery-1.5.2.js" type="text/javascript" language="javascript" charset="utf-8"></script>
-
+        
         <script type="text/javascript" language="javascript">
             $(document).ready(function() {
                 console.log("asdasdads");
@@ -42,6 +42,10 @@ if (isset($_GET["lecture"]) && !empty($_GET["lecture"])) {
         <a href="?lecture=5">Лекция 5</a>
         |
         <a href="?">Всички</a>
+
+        <br />
+        <strong>Виж точките за домашно :</strong>
+        <a href="?homework=3">Първо домашно за трета лекция</a>
         <table>
             <thead>
                 <tr>

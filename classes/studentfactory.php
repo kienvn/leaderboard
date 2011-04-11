@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of StudentFactory
  *
@@ -10,7 +11,21 @@ class StudentFactory extends AbstractFactory {
         $sql = "SELECT id,name,fn FROM students WHERE id = " . $id . " LIMIT 1";
         $res = $this->database->query($sql);
         $row = $this->database->fetch_array($res);
+        return $this->createStudent($row);
+    }
 
+    public function getAll() {
+        $sql = "SELECT id,name,fn FROM students";
+        $res = $this->database->query($sql);
+
+        $students = array();
+        while(($row = $this->database->fetch_array($res)) !== FALSE) {
+            $students[] = $this->createStudent($row);
+        }
+        return $students;
+    }
+
+    private function createStudent($row) {
         return new Student(
                 $this->extract($row, "id"),
                 $this->extract($row, "name"),
