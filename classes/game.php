@@ -15,6 +15,9 @@ class Game {
             case "lecture":
                 return $this->leaderboardStudentsByLecture($filterValue);
                 break;
+            case "homework":
+                return $this->leaderboardStudentsByHomework($filterValue);
+                break;
 
             default:
                 return $this->leaderboardStudents();
@@ -40,6 +43,18 @@ class Game {
                 ORDER BY SCORE DESC";
 
         $sql = sprintf($sql, $lecture);
+        $res = $this->database->query($sql);
+        return $this->createStudentsFromResult($res);
+    }
+
+    private function leaderboardStudentsByHomework($homework) {
+        $sql = "SELECT student_id, SUM(points) as SCORE
+                FROM leaderboard
+                WHERE lecture = %d AND type = 'homework'
+                GROUP BY student_id
+                ORDER BY SCORE DESC";
+        
+        $sql = sprintf($sql, $homework);
         $res = $this->database->query($sql);
         return $this->createStudentsFromResult($res);
     }

@@ -8,9 +8,11 @@ $students = array();
 
 if (isset($_GET["lecture"]) && !empty($_GET["lecture"])) {
 
-    $getLecture = $_GET["lecture"];
+    $getLecture = (int)$_GET["lecture"];
     $students = $game->leaderboard("lecture", $getLecture);
-    //var_dump($students);
+} else if(isset($_GET["homework"]) && !empty($_GET["homework"])) {
+    $getHomework = (int)$_GET["homework"];
+    $students = $game->leaderboard("homework", $getHomework);
 } else {
     $students = $game->leaderboard();
 }
