@@ -41,7 +41,15 @@ class Game {
     }
 
     private function leaderboardStudentsByLecture($lecture) {
-        
+        $sql = "SELECT student_id, SUM(points) as SCORE
+                FROM leaderboard
+                WHERE lecture = %d AND type != 'homework'
+                GROUP BY student_id
+                ORDER BY SCORE DESC";
+
+        $sql = sprintf($sql, $lecture);
+        $res = $this->database->query($sql);
+        return $this->createStudentsFromResult($res);
     }
 
     private function createStudentsFromResult($res) {
