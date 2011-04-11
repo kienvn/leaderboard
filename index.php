@@ -23,17 +23,23 @@ if (isset($_GET["lecture"]) && !empty($_GET["lecture"])) {
         <script src="http://code.jquery.com/jquery-1.5.2.js" type="text/javascript" language="javascript" charset="utf-8"></script>
 
         <script type="text/javascript" language="javascript">
-			$(document).ready(function() {
-				console.log("asdasdads");
-				$("tr:odd").addClass("odd");
-				$("tr:even").addClass("even");
-			});
-
+            $(document).ready(function() {
+                console.log("asdasdads");
+                $("tr:odd").addClass("odd");
+                $("tr:even").addClass("even");
+            });
         </script>
 
 
     </head>
     <body>
+        <strong>Виж точките за лекция :</strong>
+        <a href="?lecture=2">Лекция 2</a>
+        <a href="?lecture=3">Лекция 3</a>
+        <a href="?lecture=4">Лекция 4</a>
+        <a href="?lecture=5">Лекция 5</a>
+        |
+        <a href="?">Всички</a>
         <table>
             <thead>
                 <tr>
