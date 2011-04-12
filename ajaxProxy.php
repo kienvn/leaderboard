@@ -14,14 +14,22 @@ switch ($method) {
         echo json_encode($students);
         break;
     case "addPoints" :
-        $points = $_POST["points"];
-        $studentName = $_POST["studentName"];
-        $studentId = $_POST["studentId"];
-        $lecture = $_POST["lecture"];
-        $type = $_POST["type"];
+        $points = $database->escape($_POST["points"]);
+        $studentName = $database->escape($_POST["studentName"], array("htmlspecialchars", "trim"));
+        $studentId = $database->escape($_POST["studentId"]);
+        $lecture = $database->escape($_POST["lecture"]);
+        $type = $database->escape($_POST["type"]);
+
+        $result = array();
+
+        if ($studentId == -1) {
+            $studentId = $game->studentFactory->createStudent($studentName);
+            $result["studentId"] = $studentId;
+        }
 
         $game->addPoints($studentId, $points, $type, $lecture);
-        echo json_encode(array("result" => "success"));
+        $result["result"] = "success";
+        echo json_encode($result);
         break;
     default:
         break;

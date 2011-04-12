@@ -65,7 +65,7 @@
 
                 var loadSucc = function(response) {
                     students = Ext.decode(response.responseText);
-                    //  console.log(students);
+                    console.log(students);
                     Leaderboard.studentsModel = new Ext.create("Ext.data.Store", {
                         model : "Students",
                         data : students
@@ -153,9 +153,20 @@
                                         "lecture" : lecture,
                                         "type" : type
                                     };
+                                    
                                     console.log(params);
                                     Leaderboard.ajaxCall(params, function(resp) {
-                                        console.log("response from adding : ", resp);
+                                        //console.log("response from adding : ", resp);
+                                        var respObj = Ext.decode(resp.responseText);
+                                        
+                                        if(typeof(respObj["studentId"]) !== "undefined") {
+                                            console.log("newly added");
+                                            console.log(respObj);
+                                            studentId = respObj["studentId"];
+                                            console.log(studentId);
+                                            Ext.getCmp("autocompNames").store.add({name : studentName, id : studentId});
+                                        }
+                                        
                                         Ext.get("scoreAnim").show(true).on("afteranimate", function() {
                                             Ext.get("scoreAnim").show({duration : 1.5 /*seconds*/});
                                         });

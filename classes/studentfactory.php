@@ -11,7 +11,7 @@ class StudentFactory extends AbstractFactory {
         $sql = "SELECT id,name,fn FROM students WHERE id = " . $id . " LIMIT 1";
         $res = $this->database->query($sql);
         $row = $this->database->fetch_array($res);
-        return $this->createStudent($row);
+        return $this->createStudentFromRow($row);
     }
 
     public function getAll() {
@@ -20,12 +20,20 @@ class StudentFactory extends AbstractFactory {
 
         $students = array();
         while(($row = $this->database->fetch_array($res)) !== FALSE) {
-            $students[] = $this->createStudent($row);
+            $students[] = $this->createStudentFromRow($row);
         }
         return $students;
     }
 
-    private function createStudent($row) {
+    public function createStudent($name) {
+        $sql = "INSERT INTO students(name) VALUES('%s')";
+        $sql = sprintf($sql, $name);
+        $this->database->query($sql);
+        // get the newly created ID
+        return $this->database->insert_id();
+    }
+
+    private function createStudentFromRow($row) {
         return new Student(
                 $this->extract($row, "id"),
                 $this->extract($row, "name"),
