@@ -21,29 +21,13 @@
                 'Ext.data.*'
             ]);
             Ext.onReady(function(){
-                /*  Ext.regModel('Students', {
+                Ext.regModel('Students', {
                     fields : [
-                        {name : "studentName", type : "string"}
+                        {name : "name", type : "string"},
+                        {name : "id", type : "integer"}
                     ]
                 });
 
-               Leaderboard.studentsModel = new Ext.create("Ext.data.Store", {
-                    model : "Students",
-                    proxy : {
-                        type : "ajax",
-                        url : Leaderboard.gateway
-                    },
-                    reader : {
-                        type : 'json'
-                    },
-                    autoLoad : true,
-                    handlers : {
-                        load : function(store, data, suc) {
-                            console.log(data);
-                        }
-                    }
-                });
-                 */
                 Leaderboard.ajaxCall = function(parameters, succsess_callback, failure_callback) {
                     Ext.Ajax.request({
                         url : Leaderboard.gateway,
@@ -52,54 +36,76 @@
                         params : parameters
                     });
                 };
+
+                var students = [];
+
+                var loadSucc = function(response) {
+                    students = Ext.decode(response.responseText);
+                    console.log(students);
+                    Leaderboard.studentsModel = new Ext.create("Ext.data.Store", {
+                        model : "Students",
+                        data : students
+                    });
+                    afterLoad();
+                }
                 
-                Leaderboard.addPointsForLecture = Ext.create('Ext.form.FormPanel', {
-                    frame: true,
-                    title: 'Points for lecture',
-                    width: 350,
-                    bodyPadding: 5,
-                    renderTo : Ext.getBody(),
-                    collapsible : true,
-                    fieldDefaults: {
-                        labelAlign: 'left',
-                        labelWidth: 90,
-                        anchor: '100%'
-                    },
+                Leaderboard.ajaxCall({method : "getAllStudents"}, loadSucc);
+                 
+                var afterLoad = function() {
+         
+                    console.log(Leaderboard.studentsModel);
 
-                    items: [{
-                            xtype: 'textfield',
-                            name: 'nameInput',
-                            fieldLabel: 'Name',
-                            queryMode: 'local',
-                            displayField: 'studentName'
-                        },{
-                            xtype: 'numberfield',
-                            name: 'pointsInput',
-                            fieldLabel: 'Points',
-                            value: 0.5,
-                            step : 0.5,
-                            minValue: 0,
-                            maxValue: 50
-                        }],
-                    buttons : [
-                        {
-                            text : 'Submit',
-                            handler : function() {
-                                // do ajax here
-                                var form = this.up("form").getForm();
-                                console.log(form);
-                                var succ = function(response) {
-                                    x = Ext.decode(response.responseText);
-                                    console.log(this);
-                                    console.log(x);
+                    Leaderboard.addPointsForLecture = Ext.create('Ext.form.FormPanel', {
+                        frame: true,
+                        title: 'Points for lecture',
+                        width: 350,
+                        bodyPadding: 5,
+                        renderTo : Ext.getBody(),
+                        collapsible : true,
+                        fieldDefaults: {
+                            labelAlign: 'left',
+                            labelWidth: 90,
+                            anchor: '100%'
+                        },
+
+                        items: [{
+                                id : 'autocompNames',
+                                store : Leaderboard.studentsModel,
+                                xtype: 'combo',
+                                name: 'nameInput',
+                                fieldLabel: 'Name',
+                                queryMode: 'local',
+                                displayField: 'name',
+                                valueField : 'id'
+                            },{
+                                xtype: 'numberfield',
+                                name: 'pointsInput',
+                                fieldLabel: 'Points',
+                                value: 0.5,
+                                step : 0.5,
+                                minValue: 0,
+                                maxValue: 50
+                            },
+                            {
+                                xtype : 'numberfield',
+                                name : 'lectureInput',
+                                fieldLabel : 'Lecture',
+                                value : 1,
+                                step : 1,
+                                minValue : 1,
+                                maxValue : 20
+                            }],
+                        buttons : [
+                            {
+                                text : 'Submit',
+                                handler : function() {
+                                    // do ajax here
+                                    
                                 }
-
-                                Leaderboard.ajaxCall({foo : "bar"}, succ);
-                                form.reset();
                             }
-                        }
-                    ]
-                });
+                        ]
+                    });
+                }
 
             });
         </script>
