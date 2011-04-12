@@ -3,7 +3,7 @@
 class Game {
 
     private $database;
-    private $studentFactory;
+    public $studentFactory;
     
     public function __construct($database) {
         $this->database = $database;
