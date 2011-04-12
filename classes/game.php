@@ -77,5 +77,3 @@ class Game {
         return $students;
     }
 }
-
-?>
