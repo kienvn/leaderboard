@@ -15,9 +15,13 @@ switch ($method) {
         break;
     case "addPoints" :
         $points = $_POST["points"];
-        $name = $_POST["studentName"];
+        $studentName = $_POST["studentName"];
+        $studentId = $_POST["studentId"];
         $lecture = $_POST["lecture"];
-        
+        $type = $_POST["type"];
+
+        $game->addPoints($studentId, $points, $type, $lecture);
+        echo json_encode(array("result" => "success"));
         break;
     default:
         break;

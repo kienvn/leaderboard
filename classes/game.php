@@ -28,7 +28,7 @@ class Game {
     public function addPoints($studentId, $points, $type, $lecture) {
         $sql = "INSERT INTO leaderboard(type, lecture, student_id, points)
                 VALUES('%s', %d, %d, %f)";
-        $sql = sprintf($sql, $type, $lecture, $studentId, $lecture);
+        $sql = sprintf($sql, $type, $lecture, $studentId, $points);
         $this->database->query($sql);
     }
 
