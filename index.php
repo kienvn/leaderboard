@@ -8,10 +8,10 @@ $students = array();
 
 if (isset($_GET["lecture"]) && !empty($_GET["lecture"])) {
 
-    $getLecture = (int)$_GET["lecture"];
+    $getLecture = (int) $_GET["lecture"];
     $students = $game->leaderboard("lecture", $getLecture);
-} else if(isset($_GET["homework"]) && !empty($_GET["homework"])) {
-    $getHomework = (int)$_GET["homework"];
+} else if (isset($_GET["homework"]) && !empty($_GET["homework"])) {
+    $getHomework = (int) $_GET["homework"];
     $students = $game->leaderboard("homework", $getHomework);
 } else {
     $students = $game->leaderboard();
@@ -19,11 +19,12 @@ if (isset($_GET["lecture"]) && !empty($_GET["lecture"])) {
 ?>
 <htmL>
     <head>
+        <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <title>PHP 11 Course Leaderboard</title>
         <link rel="stylesheet" href="styles/main.css" type="text/css" media="screen" />
         <script src="javascript/namespace.js" type="text/javascript" language="javascript" charset="utf-8"></script>
         <script src="http://code.jquery.com/jquery-1.5.2.js" type="text/javascript" language="javascript" charset="utf-8"></script>
-        
+
         <script type="text/javascript" language="javascript">
             $(document).ready(function() {
                 console.log("asdasdads");
@@ -45,7 +46,8 @@ if (isset($_GET["lecture"]) && !empty($_GET["lecture"])) {
 
         <br />
         <strong>Виж точките за домашно :</strong>
-        <a href="?homework=3">Първо домашно за трета лекция</a>
+        <a href="?homework=3">Първо домашно</a>
+        <a href="?homework=4">Второ домашно</a>
         <table>
             <thead>
                 <tr>
