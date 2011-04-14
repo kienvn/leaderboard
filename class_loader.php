@@ -1,7 +1,9 @@
 <?php
 	require_once("config/main_config.php");
 
-	function __autoload($className) {
+        spl_autoload_register("radoDev_autoload");
+        
+	function radoDev_autoload($className) {
 		global $configuration;
 
 		// adapt the class name to the file name
@@ -12,4 +14,3 @@
 		$path = $_SERVER["DOCUMENT_ROOT"] . $extraFolder .  DIRECTORY_SEPARATOR . $configuration["CLASS_FOLDER"] . DIRECTORY_SEPARATOR . $className . "." . $configuration["CLASS_EXTENSION"];
 		require_once($path);
 	}
-?>
