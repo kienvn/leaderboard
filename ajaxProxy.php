@@ -4,6 +4,9 @@ header("Content-Type: text/html; charset=utf-8");
 require_once("class_loader.php");
 require_once("config/database_config.php");
 
+$database = new Database($dbConfig);
+$database->setEncoding("UTF8");
+
 $game = new Game($database);
 
 $method = $_POST["method"];
