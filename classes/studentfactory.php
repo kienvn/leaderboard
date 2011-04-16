@@ -5,7 +5,7 @@
  *
  * @author radoslav
  */
-class StudentFactory extends AbstractFactory {
+class StudentFactory extends DatabaseAware {
 
     public function getById($id) {
         $sql = "SELECT id,name,fn FROM students WHERE id = " . $id . " LIMIT 1";
