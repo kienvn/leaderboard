@@ -25,6 +25,18 @@ class StudentFactory extends DatabaseAware {
         return $students;
     }
 
+    public function getIdByName($name) {
+        $sql = "SELECT COUNT(id) AS OK, id
+                FROM students
+                WHERE name = '%s'
+                LIMIT 1";
+        $sql = sprintf($sql, $name);
+        $res = $this->database->query($res);
+        $row = $this->database->fetch_array($res);
+
+        return $row["OK"] == 1 ? $row["id"] : -1;
+    }
+
     public function createStudent($name) {
         $sql = "INSERT INTO students(name) VALUES('%s')";
         $sql = sprintf($sql, $name);
