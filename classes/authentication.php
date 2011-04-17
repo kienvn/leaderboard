@@ -1,4 +1,5 @@
 <?php
+
 ob_start();
 session_start();
 
@@ -54,7 +55,7 @@ class Authentication extends DatabaseAware {
         $sql = "INSERT INTO administrative(student_id, password, last_login)
                 VALUES(%d, '%s', '%s')";
 
-        $lastDateTime = date("Y-m-d H:i:s", time());
+        $lastDateTime = $this->getMysqlDateTime();
         $sql = sprintf($sql, $studentId, $password, $lastDateTime);
         $this->database->query($sql);
 
@@ -66,6 +67,10 @@ class Authentication extends DatabaseAware {
         $salt = md5($string . $this->salt);
         $string = md5("$salt$string$salt");
         return $string;
+    }
+
+    private function getMysqlDateTime() {
+        date("Y-m-d H:i:s", time());
     }
 
 }
