@@ -8,7 +8,11 @@ $database = new Database($dbConfig);
 $database->setEncoding("UTF8");
 
 $game = new Game($database);
-
+$auth = new Authentication($database);
+if($auth->checkLogin() == FALSE) {
+    echo json_encode(array("error" => "No privileges :( :("));
+    exit;
+}
 $method = $_POST["method"];
 
 switch ($method) {
