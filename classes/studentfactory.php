@@ -31,7 +31,7 @@ class StudentFactory extends DatabaseAware {
                 WHERE name = '%s'
                 LIMIT 1";
         $sql = sprintf($sql, $name);
-        $res = $this->database->query($res);
+        $res = $this->database->query($sql);
         $row = $this->database->fetch_array($res);
 
         return $row["OK"] == 1 ? $row["id"] : -1;
