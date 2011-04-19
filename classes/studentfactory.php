@@ -19,7 +19,7 @@ class StudentFactory extends DatabaseAware {
         $res = $this->database->query($sql);
 
         $students = array();
-        while(($row = $this->database->fetch_array($res)) !== FALSE) {
+        while (($row = $this->database->fetch_array($res)) !== FALSE) {
             $students[] = $this->createStudentFromRow($row);
         }
         return $students;

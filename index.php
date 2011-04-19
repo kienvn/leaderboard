@@ -11,7 +11,6 @@ require_once("config/database_config.php");
 $database = new Database($dbConfig);
 $database->setEncoding("UTF8");
 
-
 $game = new Game($database);
 $students = array();
 
@@ -37,4 +36,3 @@ $smarty->setTemplateDir("templates");
 $smarty->assign("totalScore", $totalScore);
 $smarty->assign("students", $students);
 $smarty->display("index.tpl");
-?>

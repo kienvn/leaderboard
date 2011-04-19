@@ -31,6 +31,7 @@ class Authentication extends DatabaseAware {
             unset($_SESSION["userId"]);
             session_regenerate_id();
             $_SESSION["userId"] = $userId;
+            $this->updateLoginTime($userId);
             return true;
         }
 
@@ -67,6 +68,15 @@ class Authentication extends DatabaseAware {
         $salt = md5($string . $this->salt);
         $string = md5("$salt$string$salt");
         return $string;
+    }
+
+    private function updateLoginTime($studentId) {
+        $sql = "UPDATE administrative
+                SET last_login = '%s' 
+                WHERE student_id = %d
+                LIMIT 1";
+        $sql = sprintf($sql, $this->getMysqlDateTime(), $studentId);
+        $this->database->query($sql);
     }
 
     private function getMysqlDateTime() {
