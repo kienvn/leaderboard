@@ -54,10 +54,9 @@ class Authentication extends DatabaseAware {
     public function elevate($studentId, $password) {
         $password = $this->encrypt($password);
         $sql = "INSERT INTO administrative(student_id, password, last_login)
-                VALUES(%d, '%s', '%s')";
+                VALUES(%d, '%s', %d)";
 
-        $lastDateTime = $this->getMysqlDateTime();
-        $sql = sprintf($sql, $studentId, $password, $lastDateTime);
+        $sql = sprintf($sql, $studentId, $password, time());
         $this->database->query($sql);
 
         return $this->database->affected_rows == 1;
@@ -72,15 +71,11 @@ class Authentication extends DatabaseAware {
 
     private function updateLoginTime($studentId) {
         $sql = "UPDATE administrative
-                SET last_login = '%s' 
+                SET last_login = %d
                 WHERE student_id = %d
                 LIMIT 1";
-        $sql = sprintf($sql, $this->getMysqlDateTime(), $studentId);
+        $sql = sprintf($sql, time(), $studentId);
         $this->database->query($sql);
-    }
-
-    private function getMysqlDateTime() {
-        date("Y-m-d H:i:s", time());
     }
 
 }
