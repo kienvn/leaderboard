@@ -45,6 +45,17 @@ class Authentication extends DatabaseAware {
         $_SESSION["userId"] > 0;
     }
 
+    public function getLastLoginTime($studentId) {
+        $sql = "SELECT last_login
+                FROM administrative
+                WHERE student_id = %d
+                LIMIT 1";
+        $sql = sprintf($sql, $studentId);
+        $res = $database->query($sql);
+        $row = $database->fetch_array($res);
+        return $row["last_login"];
+    }
+
     public function logout() {
         unset($_SESSION["userId"]);
         session_destroy();
