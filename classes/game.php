@@ -5,12 +5,7 @@
  * The main class that is responsible for wrapping the game logic
  * Needs a Database class to work correctly
  */
-class Game {
-
-    // ----------------------------------------
-    // PRIVATE CLASS MEMBERS
-    // ----------------------------------------
-    private $database; /* Database class */
+class Game extends DatabaseAware {
     // ----------------------------------------
     // PUBLIC CLASS MEMBERS
     // ----------------------------------------
@@ -20,7 +15,7 @@ class Game {
     // CONSTRUCTOR
     // ----------------------------------------
     public function __construct($database) {
-        $this->database = $database;
+        parent::__construct($database);
         $this->studentFactory = new StudentFactory($database);
     }
 
