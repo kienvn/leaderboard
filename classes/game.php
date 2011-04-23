@@ -128,7 +128,7 @@ class Game {
      */
     private function createStudentsFromResult($res) {
         $students = array();
-        while (($row = $this->database->fetch_array($res)) !== FALSE) {
+        while (($row = $this->database->fetchAssoc($res)) !== FALSE) {
             $currentStudent = $this->studentFactory->getById($row["student_id"]);
             $currentStudent->setScore($row["SCORE"]);
             $students[] = $currentStudent;

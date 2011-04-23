@@ -1,28 +1,27 @@
 <?php
 
+require_once("idatabase.php");
+
 /**
- * @version 0.1
+ * @version 0.2
  * @author RadoRado (a.k.a Rado)
  * Should be more generic in the bright future
  * For now, it's going to work with MySQL
  * The class requires config_util.php(Config class) It's up to the user to include it
  */
-class Database {
+class Database implements IDatabase {
 
     // ----------------------------------------
-    // PUBLIC FIELDS
+    // PRIVATE FIELDS
     // ----------------------------------------
     /**
      * @var string Holds the last executed query
      */
-    public $last_query = "";
+    private $last_query = "";
     /**
      * @var Holds the connection link to the database.
      */
-    public $connection = null;
-    // ----------------------------------------
-    // PRIVATE FIELDS
-    // ----------------------------------------
+    private $connection = null;
     /**
      * @var The basic configuration options for a database connection
      */
@@ -53,17 +52,18 @@ class Database {
         Config::apply($this->db_config, $config);
         $this->magic_quotes_active = get_magic_quotes_gpc();
         $this->real_escape_string_exists = function_exists("mysql_real_escape_string"); // i.e. PHP >= v4.3.0
-        $this->open_connection($create_table_name);
+        $this->openConnection($create_table_name);
     }
 
     // ----------------------------------------
-    // PUBLIC METHODS
+    // INTERFACE METHODS
     // ----------------------------------------
+
     /**
      * Performs MySQL database query.
      * Values should be escaped by now.
-     * @param  $sql - the SQL statement
-     * @return link to the MySQL resource
+     * @param <string> $sql - the SQL statement
+     * @return <handler> link to the MySQL resource
      */
     public function query($sql) {
         $this->last_query = $sql;
@@ -73,40 +73,118 @@ class Database {
         return $res;
     }
 
+    /**
+     * Sets the encoding of the database using SET NAMES query
+     * @param <string> $encoding
+     * @return void
+     */
     public function setEncoding($encoding) {
         $this->query("SET NAMES " . $encoding);
     }
 
+    /**
+     * Wrapper for mysql_fetch_assoc
+     * @param <Resource> $result
+     * @return <array> Associative array containing the next row from the query
+     */
     public function fetchAssoc($result) {
         return mysql_fetch_assoc($result);
     }
 
-    public function extractFromResult($result, $what) {
-        $row = $this->fetchAssoc($result);
-        if (!$row) {
-            return false;
-        }
-        return $row[$what];
+    /**
+     * Wrapper for mysql_affected_rows
+     * @return <integer> The number of the rows affected after the last UPDATE | INSERT | DELETE
+     */
+    public function affectedRows() {
+        return mysql_affected_rows($this->connection);
     }
 
-    public function fetch_array($result) {
-        return mysql_fetch_array($result);
-    }
-
-    public function fetch_object($result) {
+    /**
+     * Wrapper for mysql_fetch_object
+     * @param <Resource> $result
+     * @return <Object> Object, containing the next row from the query
+     */
+    public function fetchObject($result) {
         return mysql_fetch_object($result);
     }
 
-    public function num_rows($result) {
-        return mysql_num_rows($result);
+    /**
+     * Wrapper for mysql_fetch_array
+     * @param <Resource> $result
+     * @return <array> Associative array containing the next row from the query
+     */
+    public function fetchArray($result) {
+        return mysql_fetch_array($result);
     }
 
-    public function insert_id() {
+    /**
+     * Wrapper for mysql_error
+     * @return <string> The last error from querying the database
+     */
+    public function lastError() {
+        return mysql_error($this->connection);
+    }
+
+    /**
+     * Wrapper for mysql_insert_id
+     * @return <integer> The last id from an INSERT query
+     */
+    public function lastInsertedId() {
         return mysql_insert_id($this->connection);
     }
 
-    public function affected_rows() {
-        return mysql_affected_rows($this->connection);
+    /**
+     * Wrapper for mysql_num_rows
+     * @param <Resource> $result
+     * @return <integer> number of rows that were SELECTed
+     */
+    public function numRows($result) {
+        return mysql_num_rows($result);
+    }
+
+    /**
+     * Opens connection to a MySQL database.
+     * If there's an error, an Exception will be thrown
+     * @param <boolean> $createTable - if true, database with the given name is created
+     * @return void
+     */
+    public function openConnection($createTable = false) {
+        $this->connection = mysql_connect(
+                        $this->db_config["DB_HOST"],
+                        $this->db_config["DB_USER"],
+                        $this->db_config["DB_PASS"]);
+
+        if (!$this->connection) { /* Something went wrong */
+            throw new Exception(sprintf($this->errors["DATABASE_CONNECTION_ERROR"], mysql_error()));
+        } else {
+            if ($createTable == true) {
+                $this->query("CREATE DATABASE " . $this->db_config["DB_NAME"]);
+            }
+            $select = mysql_select_db($this->db_config["DB_NAME"], $this->connection);
+            if (!$select) {
+                throw new Exception(sprintf($this->errors["SELECTING_DATABASE_ERROR"], $this->db_config["DB_NAME"], mysql_error()));
+            }
+        }
+    }
+
+    /**
+     * Returns the link to the database
+     * @return <Link identifier>
+     */
+    public function getConnection() {
+        return $this->connection;
+    }
+
+    /**
+     * Closes the connection to the MySQL database
+     * and unsets the link to it
+     */
+    public function closeConnection() {
+        if (isset($this->connection)) {
+            // don't actually care if it returns false
+            mysql_close($this->connection);
+            unset($this->connection);
+        }
     }
 
     /**
@@ -143,33 +221,6 @@ class Database {
             }
         }
         return $value;
-    }
-
-    public function open_connection($create_table_name = false) {
-        $this->connection = mysql_connect(
-                        $this->db_config["DB_HOST"],
-                        $this->db_config["DB_USER"],
-                        $this->db_config["DB_PASS"]);
-
-        if (!$this->connection) { /* Something went wrong */
-            throw new Exception(sprintf($this->errors["DATABASE_CONNECTION_ERROR"], mysql_error()));
-        } else {
-            if ($create_table_name == true) {
-                $this->query("CREATE DATABASE " . $this->db_config["DB_NAME"]);
-            }
-            $select = mysql_select_db($this->db_config["DB_NAME"], $this->connection);
-            if (!$select) {
-                throw new Exception(sprintf($this->errors["SELECTING_DATABASE_ERROR"], $this->db_config["DB_NAME"], mysql_error()));
-            }
-        }
-    }
-
-    public function close_connection() {
-        if (isset($this->connection)) {
-            // don't actually care if it returns false
-            mysql_close($this->connection);
-            unset($this->connection);
-        }
     }
 
     // ----------------------------------------

@@ -10,7 +10,7 @@ class StudentFactory extends DatabaseAware {
     public function getById($id) {
         $sql = "SELECT id,name,fn FROM students WHERE id = " . $id . " LIMIT 1";
         $res = $this->database->query($sql);
-        $row = $this->database->fetch_array($res);
+        $row = $this->database->fetchAssoc($res);
         return $this->createStudentFromRow($row);
     }
 
@@ -19,7 +19,7 @@ class StudentFactory extends DatabaseAware {
         $res = $this->database->query($sql);
 
         $students = array();
-        while (($row = $this->database->fetch_array($res)) !== FALSE) {
+        while (($row = $this->database->fetchAssoc($res)) !== FALSE) {
             $students[] = $this->createStudentFromRow($row);
         }
         return $students;
@@ -32,7 +32,7 @@ class StudentFactory extends DatabaseAware {
                 LIMIT 1";
         $sql = sprintf($sql, $name);
         $res = $this->database->query($sql);
-        $row = $this->database->fetch_array($res);
+        $row = $this->database->fetchAssoc($res);
 
         return $row["OK"] == 1 ? $row["id"] : -1;
     }

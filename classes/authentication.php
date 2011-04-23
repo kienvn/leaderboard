@@ -25,7 +25,7 @@ class Authentication extends DatabaseAware {
                 LIMIT 1";
         $sql = sprintf($sql, $userId, $password);
         $res = $this->database->query($sql);
-        $row = $this->database->fetch_array($res);
+        $row = $this->database->fetchAssoc($res);
 
         if ($row["OK"] == 1) {
             unset($_SESSION["userId"]);
@@ -52,7 +52,7 @@ class Authentication extends DatabaseAware {
                 LIMIT 1";
         $sql = sprintf($sql, $studentId);
         $res = $database->query($sql);
-        $row = $database->fetch_array($res);
+        $row = $database->fetchAssoc($res);
         return $row["last_login"];
     }
 
