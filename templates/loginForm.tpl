@@ -1,3 +1,4 @@
+<!DOCTYPE HTML>
 <html>
     <head>
         <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
