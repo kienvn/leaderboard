@@ -17,7 +17,7 @@ class Token {
         $seedLen = strlen($seed);
         
         for($i = 0; $i < $length; $i++) {
-            $randIndex = mt_random(0, $seedLen);
+            $randIndex = mt_rand(0, $seedLen);
             $str .= $seed[$randIndex];
         }
 

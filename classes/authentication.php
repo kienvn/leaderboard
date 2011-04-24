@@ -34,7 +34,9 @@ class Authentication extends DatabaseAware {
             session_regenerate_id();
             $_SESSION["userId"] = $userId;
             $this->updateLoginTime($userId);
-            return true;
+            $token = $this->getRandomToken($userId);
+            $this->updateLoginToken($userId, $token);
+            return $token;
         }
 
         return false;

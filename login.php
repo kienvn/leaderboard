@@ -31,7 +31,7 @@ if (isset($_POST["loginForm"])) {
     if ($res == FALSE) {
         $errorText = "Wrong credentials";
     } else {
-        Navigation::go("adminPage.html");
+        Navigation::go("adminPage.html?token=" . $res);
     }
 }
 
