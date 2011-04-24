@@ -1,4 +1,5 @@
 <?php
+
 header("Content-Type: text/html; charset=utf-8");
 
 require_once("classes/Smarty.class.php");
@@ -15,7 +16,7 @@ $smarty->setTemplateDir("templates");
 
 if (isset($_GET["logout"])) {
     $auth->logout();
-    header("Location: index.php");
+    Navigation::go("index.php");
 }
 
 $errorText = "";
@@ -27,13 +28,12 @@ if (isset($_POST["loginForm"])) {
     $userId = $game->studentFactory->getIdByName($user);
 
     $res = $auth->login($userId, $password);
-    if($res == FALSE) {
-     $errorText = "Wrong credentials";
+    if ($res == FALSE) {
+        $errorText = "Wrong credentials";
     } else {
-        header("Location: adminPage.html");
+        Navigation::go("adminPage.html");
     }
 }
 
 $smarty->assign("errorText", $errorText);
 $smarty->display("loginForm.tpl");
-?>
