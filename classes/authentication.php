@@ -10,6 +10,8 @@ session_start();
  */
 class Authentication extends DatabaseAware {
 
+    public $tokenAlphabet = "abcdefghijklmnopqrstuvw0123456789!@#$%^&*()";
+    public $tokenLength = 32;
     private $salt = "%*4!#;\.k~'(_@";
 
     public function setSalt($salt) {
@@ -80,12 +82,42 @@ class Authentication extends DatabaseAware {
         return $string;
     }
 
+    private function getRandomToken($studentId) {
+        $t = new Token($this->tokenAlphabet, $this->tokenLength);
+        // check for existing tokens
+        while ($this->checkToken($studentId, $t->getString())) {
+            $t = Token($this->tokenAlphabet, $this->tokenLength);
+        }
+        return $t->getString();
+    }
+
+    private function checkToken($studentId, $token) {
+        $sql = "SELECT COUNT(id) AS OK
+                FROM administrative
+                WHERE student_id = %d AND token = '%s'
+                LIMIT 1";
+        $sql = sprintf($sql, $studentId, $token);
+        $res = $this->database->query($sql);
+        $row = $this->database->fetchAssoc($res);
+
+        return $row["OK"] == 1;
+    }
+
     private function updateLoginTime($studentId) {
         $sql = "UPDATE administrative
                 SET last_login = %d
                 WHERE student_id = %d
                 LIMIT 1";
         $sql = sprintf($sql, time(), $studentId);
+        $this->database->query($sql);
+    }
+
+    private function updateLoginToken($studentId, $token) {
+        $sql = "UPDATE administrative
+                SET token = '%s'
+                WHERE student_id = %d
+                LIMIT 1";
+        $sql = sprintf($sql, $token, $studentId);
         $this->database->query($sql);
     }
 
