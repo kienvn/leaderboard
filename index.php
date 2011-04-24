@@ -25,6 +25,8 @@ if (isset($_GET["lecture"]) && !empty($_GET["lecture"])) {
     $students = $game->leaderboard();
 }
 
+$lectures = $game->getLectures();
+
 // calculate the total sum
 $totalScore = 0.0;
 foreach ($students as $student) {
@@ -35,4 +37,5 @@ $smarty = new Smarty();
 $smarty->setTemplateDir("templates");
 $smarty->assign("totalScore", $totalScore);
 $smarty->assign("students", $students);
+$smarty->assign("lectures", $lectures);
 $smarty->display("index.tpl");

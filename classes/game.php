@@ -6,6 +6,7 @@
  * Needs a Database class to work correctly
  */
 class Game extends DatabaseAware {
+
     // ----------------------------------------
     // PUBLIC CLASS MEMBERS
     // ----------------------------------------
@@ -42,6 +43,21 @@ class Game extends DatabaseAware {
                 return $this->leaderboardStudents();
                 break;
         }
+    }
+
+    public function getLectures() {
+        $sql = "SELECT DISTINCT lecture 
+                FROM leaderboard
+                ORDER BY lecture ASC";
+        $res = $this->database->query($sql);
+
+        $lectures = array();
+
+        while (($row = $this->database->fetchAssoc($res)) !== FALSE) {
+            $lectures[] = $row["lecture"];
+        }
+
+        return $lectures;
     }
 
     /**

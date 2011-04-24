@@ -19,10 +19,11 @@
     </head>
     <body>
         <strong>Виж точките за лекция :</strong>
-        <a href="?lecture=2">Лекция 2</a>
-        <a href="?lecture=3">Лекция 3</a>
-        <a href="?lecture=4">Лекция 4</a>
-        <a href="?lecture=5">Лекция 5</a>
+        {foreach $lectures as $lec}
+        {strip}
+        <a href="?lecture={$lec}">Лекция {$lec}</a>
+        {/strip}
+        {/foreach}
         |
         <a href="?">Всички</a>
 
