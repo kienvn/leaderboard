@@ -13,6 +13,7 @@
         <!-- ExtJS library: base/adapter -->
         <script type="text/javascript" src="javascript/extjs/ext-all-debug-w-comments.js"></script>
 
+        <link rel="stylesheet" type="tetext/css" href="styles/admin.css" />
         <!-- page specific -->
         <script type="text/javascript" src="javascript/main.js"></script>
         <title>Add points</title>
@@ -22,6 +23,6 @@
 
     <body>
         <div id="panelsPlaceholder"></div>
-        <div style="font-weight: bold; color: green; visibility: hidden" id="scoreAnim">Score added</div>
+        <div id="scoreAnim">Score added</div>
     </body>
 </html>

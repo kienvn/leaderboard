@@ -1,4 +1,4 @@
-     Ext.BLANK_IMAGE_URL = 'extjs/resources/themes/images/default/tree/s.gif';
+     Ext.BLANK_IMAGE_URL = 'javascript/extjs/resources/themes/images/default/tree/s.gif';
             Ext.require([
                 'Ext.form.*',
                 'Ext.data.*'
