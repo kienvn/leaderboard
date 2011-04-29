@@ -60,6 +60,29 @@ class Game extends DatabaseAware {
         return $lectures;
     }
 
+    public function getHistoryForStudent($studentId) {
+        $sql = "SELECT id,type,lecture,points
+                FROM leaderboard
+                WHERE student_id = %d";
+        $sql = sprintf($sql, $studentId);
+
+        $history = array(); // assoc array of lecture # => array of data
+
+        $res = $this->database->query($sql);
+
+        while (($row = $this->database->fetchAssoc($res)) !== FALSE) {
+            $key = $row["lecture"];
+
+            if (!isset($history[$key])) {
+                $history[$key] = array();
+            }
+
+            array_push($history[$key], $row);
+        }
+
+        return $history;
+    }
+
     /**
      * Add points to a given student.
      * The student should exist in the database
