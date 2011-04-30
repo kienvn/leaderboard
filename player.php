@@ -5,6 +5,8 @@ require_once("class_loader.php");
 require_once("config/database_config.php");
 
 $database = new Database($dbConfig);
+$database->setEncoding("UTF8");
+
 $game = new Game($database);
 
 // init Smarty
@@ -13,9 +15,12 @@ $smarty->setTemplateDir("templates");
 
 if (isset($_GET["pid"]) && !empty($_GET["pid"])) {
     $pid = $_GET["pid"];
-    
     // sanitize the input
     $pid = $database->escape($pid);
+
+    $student = $game->studentFactory->getById($pid);
+    
+
     $history = $game->getHistoryForStudent($pid);
     var_dump($history);
 } else {
