@@ -2,21 +2,27 @@
 <html>
     <head>
         <title>Статистика за {$playerName}</title>
+        <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <link rel="stylesheet" href="styles/main.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="styles/player.css" type="text/css" media="screen" />
     </head>
     <body>
-        <strong>{$playerName}</strong>
-        <br />
-        {foreach $history as $k => $v}
-            {strip}
-                Лекция {$k}:
+        <div id="main">
+            <strong>{$playerName}</strong>
+            <br />
+            {foreach $history as $k => $v}
+                {strip}
+                Лекция номер {$k}:
                 <br />
-                {foreach $v as $hist}
-                    {$hist->type} : {$hist->points}
+                <div id="lectureDiv">
+                    {foreach $v as $hist}
+                        {$hist->type} : {$hist->points}
                 <br />
-                {/foreach}
+                    {/foreach}
                 <br />
-            {/strip}
-        {/foreach}
+                {/strip}
+            </div>
+            {/foreach}
+        </div>
     </body>
 </html>
