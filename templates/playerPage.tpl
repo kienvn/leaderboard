@@ -12,12 +12,17 @@
             <br />
             {foreach $history as $k => $v}
                 {strip}
-                Лекция номер {$k}:
-                <br />
-                <div id="lectureDiv">
+            <strong>Лекция номер {$k}</strong>
+            <br />
+            <div id="lectureDiv">
                     {foreach $v as $hist}
-                        {$hist->type} : {$hist->points}
-                <br />
+                        {if $hist->type eq 'question'}
+                        <img src="images/question_btn50p.png" />
+                        {elseif $hist->type eq 'answer'}
+                        <img src="images/answer_btn50p.png" />
+                        {elseif $hist->type eq 'homework'}
+                        <img src="images/homework_btn50p.png" />
+                        {/if}
                     {/foreach}
                 <br />
                 {/strip}
