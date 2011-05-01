@@ -1,4 +1,5 @@
 <?php
+
 header("Content-Type: text/html; charset=utf-8");
 
 require_once("classes/Smarty.class.php");
@@ -24,6 +25,7 @@ if (isset($_GET["pid"]) && !empty($_GET["pid"])) {
     $student = $game->studentFactory->getById($pid);
 
     $history = $game->getHistoryForStudent($pid);
+    ksort($history);
     
     $smarty->assign("playerName", $student->name);
     $smarty->assign("history", $history);
