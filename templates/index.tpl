@@ -42,7 +42,7 @@
                {foreach $students as $student}
                 {strip}
                 <tr>
-                    <td>{$student->name}</td>
+                    <td><a href="player.php?pid={$student->id}">{$student->name}</a></td>
                     <td>{$student->score}</td>
                 </tr>
                 {/strip}
