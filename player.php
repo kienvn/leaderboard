@@ -26,9 +26,19 @@ if (isset($_GET["pid"]) && !empty($_GET["pid"])) {
 
     $history = $game->getHistoryForStudent($pid);
     ksort($history);
+
+    // calculate the total score
+    $score = 0.0;
+    foreach($history as $key => $value) {
+        foreach($value as $historyObj) {
+            $score += $historyObj->points;
+        }
+    }
     
     $smarty->assign("playerName", $student->name);
     $smarty->assign("history", $history);
+    $smarty->assign("totalScore", $score);
+    
     $page = "playerPage.tpl";
 } else {
     $error = "No player selected";

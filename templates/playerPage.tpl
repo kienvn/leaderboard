@@ -10,6 +10,10 @@
         <div id="main">
             <strong>{$playerName}</strong>
             <br />
+            Общо точки : {$totalScore}
+            <br />
+            История на точките :
+            <br />
             {foreach $history as $k => $v}
                 {strip}
             <strong>Лекция номер {$k}</strong>
@@ -17,11 +21,11 @@
             <div id="lectureDiv">
                     {foreach $v as $hist}
                         {if $hist->type eq 'question'}
-                        <img src="images/question_btn50p.png" />
+                        <img title="Въпрос" alt="Въпрос" src="images/question_btn50p.png" />
                         {elseif $hist->type eq 'answer'}
-                        <img src="images/answer_btn50p.png" />
+                        <img title="Отговор" alt="Отговор" src="images/answer_btn50p.png" />
                         {elseif $hist->type eq 'homework'}
-                        <img src="images/homework_btn50p.png" />
+                        <img title="Домашно" alt="Домашно" src="images/homework_btn50p.png" />
                         {/if}
                     {/foreach}
                 <br />
