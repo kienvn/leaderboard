@@ -90,11 +90,7 @@ class Game extends DatabaseAware {
             if (!isset($history[$key])) {
                 $history[$key] = array();
             }
-            $current = new History();
-            $current->type = $row["type"];
-            $current->points = $row["points"];
-            $current->lecture = $row["lecture"];
-
+            $current = new History($row["lecture"], $row["points"], $row["type"]);
             array_push($history[$key], $current);
         }
 

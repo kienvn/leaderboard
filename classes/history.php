@@ -8,5 +8,11 @@ class History {
     public $lecture; // int
     public $points; // double
     public $type; // string
+
+    public function  __construct($lecture = -1, $points = 0, $type = "") {
+        $this->lecture = $lecture;
+        $this->points = $points;
+        $this->type = $type;
+    }
 }
 ?>
