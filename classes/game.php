@@ -45,6 +45,10 @@ class Game extends DatabaseAware {
         }
     }
 
+    /**
+     * Gets all lectures where there've been any activity
+     * @return <Array of integers> where each element is the lecture number
+     */
     public function getLectures() {
         $sql = "SELECT DISTINCT lecture 
                 FROM leaderboard
@@ -60,6 +64,16 @@ class Game extends DatabaseAware {
         return $lectures;
     }
 
+    /**
+     * Gets the history of points for a given student
+     * The history is presented as a pair of data,
+     * where the first element is the lecture number
+     * and the second element is a set of different activities(questions,answers,homeworks)
+     * which bear different points
+     * One activity is represented as a History object
+     * @param <type> $studentId - the id for the student's record in the database
+     * @return array - Assoc array of lecture # for key, and array of History objects for data
+     */
     public function getHistoryForStudent($studentId) {
         $sql = "SELECT id,type,lecture,points
                 FROM leaderboard
