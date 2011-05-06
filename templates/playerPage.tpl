@@ -8,15 +8,13 @@
     </head>
     <body>
         <div id="main">
-            <strong>{$playerName}</strong>
-            <br />
-            Общо точки : {$totalScore}
-            <br />
-            История на точките :
+            <span id="playerName">{$playerName}</span> | <span id="totalScore">Общо точки : {$totalScore}</span>
+            <br /><br />
+            <span id="pointsHistory">История на точките :</span>
             <br />
             {foreach $history as $k => $v}
                 {strip}
-            <strong>Лекция номер {$k}</strong>
+            Лекция #{$k}
             <br />
             <div id="lectureDiv">
                     {foreach $v as $hist}

@@ -5,3 +5,20 @@
     border-style: solid;
 }
 
+#playerName {
+    font-weight: bold;
+    font-size: 24px;
+    color: #04468c; /*kind of dark blue*/
+}
+
+#pointsHistory {
+    font-weight: bold;
+    font-size : 20px;
+    color : #F6790C;
+}
+
+#totalScore {
+    font-weight: bold;
+    color: limegreen;
+}
+
