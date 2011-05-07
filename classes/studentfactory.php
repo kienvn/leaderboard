@@ -107,7 +107,7 @@ class StudentFactory extends DatabaseAware {
                 $this->extract($row, "id"),
                 $this->extract($row, "name"),
                 $this->extract($row, "fn"),
-                NULL // no email for now :)
+                "" // no email for now :)
         );
     }
 

@@ -18,7 +18,7 @@ class Student {
     // ----------------------------------------
     // CONSTRUCTOR
     // ----------------------------------------
-    public function __construct($id = -1, $name = "", $fn = NULL, $email = NULL) {
+    public function __construct($id = -1, $name = "", $fn = "", $email = "") {
         $this->id = $id;
         $this->name = $name;
         $this->facultyNumber = $fn;
