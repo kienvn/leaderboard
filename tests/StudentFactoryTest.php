@@ -21,6 +21,7 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
     public static function setUpBeforeClass() {
         global $dbConfig;
         self::$database = new Database($dbConfig, true);
+        passthru("nohup mysql -u {$dbConfig['DB_USER']} -p{$dbConfig['DB_PASS']} {$dbConfig['DB_NAME']} < data/radodevc_ldrboard.sql");
     }
 
     public static function tearDownAfterClass() {
