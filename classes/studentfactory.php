@@ -1,21 +1,27 @@
 <?php
 
 /**
- * Description of StudentFactory
+ * This class is responsible for different logic connected to the players (students)
  *
  * @author radoslav
  */
 class StudentFactory extends DatabaseAware {
 
+    // ----------------------------------------
+    // PUBLIC METHODS
+    // ----------------------------------------
     public function getById($id) {
-        $sql = "SELECT id,name,fn FROM students WHERE id = " . $id . " LIMIT 1";
+        $sql = "SELECT id,name,fn 
+                FROM students
+                WHERE id = " . $id . " LIMIT 1";
         $res = $this->database->query($sql);
         $row = $this->database->fetchAssoc($res);
         return $this->createStudentFromRow($row);
     }
 
     public function getAll() {
-        $sql = "SELECT id,name,fn FROM students";
+        $sql = "SELECT id,name,fn
+                FROM students";
         $res = $this->database->query($sql);
 
         $students = array();
@@ -38,13 +44,64 @@ class StudentFactory extends DatabaseAware {
     }
 
     public function createStudent($name) {
-        $sql = "INSERT INTO students(name) VALUES('%s')";
+        $sql = "INSERT INTO students(name)
+                VALUES('%s')";
         $sql = sprintf($sql, $name);
         $this->database->query($sql);
         // get the newly created ID
         return $this->database->insert_id();
     }
 
+    public function deleteStudent($studentId) {
+        $sqlStudents = "DELETE FROM students
+                        WHERE id = %d
+                        LIMIT 1";
+        $sqlStudents = sprintf($sqlStudents, $studentId);
+
+        $sqlLeaderboard = "DELETE FROM leaderboard 
+                           WHERE student_id = %d";
+        $sqlLeaderboard = sprintf($sqlLeaderboard, $studentId);
+
+        $sqlAdministrative = "DELETE FROM administrative 
+                              WHERE student_id = %s
+                              LIMIT 1";
+        $sqlAdministrative = sprintf($sqlAdministrative, $studentId);
+
+        // begin transaction so no data can be lost
+        $this->database->query("START TRANSACTION");
+        $res1 = $this->database->query($sqlStudents);
+        $res2 = $this->database->query($sqlLeaderboard);
+        $res3 = $this->database->query($sqlAdministrative);
+
+        $finalRes = $res1 && $res2 && $res3;
+        if ($finalRes == TRUE) {
+            $this->database->query("COMMIT");
+            return TRUE;
+        } else {
+            $this->database->query("ROLLBACK");
+            return FALSE;
+        }
+    }
+
+    public function mergeStudents($mergeThis, $intoThis) {
+        if ($mergeThis == $intoThis) {
+            return FALSE;
+        }
+
+        $mergeThisId = $this->getIdByName($mergeThis);
+        if ($mergeThisId == -1) {
+            return FALSE;
+        }
+
+        $intoThisId = $this->getIdByName($intoThis);
+        if ($intoThisId == -1) {
+            return FALSE;
+        }
+    }
+
+    // ----------------------------------------
+    // PRIVATE METHODS
+    // ----------------------------------------
     private function createStudentFromRow($row) {
         return new Student(
                 $this->extract($row, "id"),
@@ -59,5 +116,3 @@ class StudentFactory extends DatabaseAware {
     }
 
 }
-
-?>
