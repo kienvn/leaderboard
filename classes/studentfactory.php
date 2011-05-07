@@ -11,11 +11,14 @@ class StudentFactory extends DatabaseAware {
     // PUBLIC METHODS
     // ----------------------------------------
     public function getById($id) {
-        $sql = "SELECT id,name,fn 
+        $sql = "SELECT id,name,fn,email
                 FROM students
                 WHERE id = " . $id . " LIMIT 1";
         $res = $this->database->query($sql);
         $row = $this->database->fetchAssoc($res);
+        if(!$row) {
+            return NULL;
+        }
         return $this->createStudentFromRow($row);
     }
 

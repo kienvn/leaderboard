@@ -16,11 +16,10 @@ require_once("../classes/studentfactory.php");
 class StudentFactoryTest extends PHPUnit_Framework_TestCase {
 
     public static $database;
-
     protected $studentFactory;
     protected $arrayOfStudents;
     protected $studentCount = 50;
-    
+
     public static function setUpBeforeClass() {
         global $dbConfig;
         self::$database = new Database($dbConfig, true);
@@ -37,9 +36,10 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
         $this->studentFactory = new StudentFactory(self::$database);
         $this->arrayOfStudents = array();
 
-        for($i = 0; $i < $this->studentCount; ++$i) {
+        for ($i = 0; $i < $this->studentCount; ++$i) {
             $s = new Student();
             $s->name = "Rado" . $i;
+            $s->id = $i + 1;
             $this->arrayOfStudents[] = $s;
         }
     }
@@ -50,18 +50,34 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(array(), $students);
     }
 
+    public function testGetByIdMethodOnEmptyDatabase() {
+        for ($i = 0; $i < $this->studentCount; ++$i) {
+            $id = $i + 1;
+            $resultedStudent = $this->studentFactory->getById($id);
+            $this->assertEquals(NULL, $resultedStudent);
+        }
+    }
+
     public function testCreateMethodOnEmptyDatabase() {
-        for($i = 0; $i < $this->studentCount; ++$i) {
+        for ($i = 0; $i < $this->studentCount; ++$i) {
             $name = $this->arrayOfStudents[$i]->name;
             $id = $this->studentFactory->createStudent($name);
-            $this->assertEquals (($i + 1), $id);
+            $this->assertEquals(($i + 1), $id);
         }
     }
 
     public function testGetAllMethodOnNonEmptyDatabaseAfterCreateMethod() {
         $students = $this->studentFactory->getAll();
 
-        $this->assertEquals(count($this->arrayOfStudents), count($students));
+        $this->assertEquals($this->arrayOfStudents, $students);
+    }
+
+    public function testGetByIdMethodOnNonEmptyDatabaseAfterCreateMethod() {
+        for ($i = 0; $i < $this->studentCount; ++$i) {
+            $id = $i + 1;
+            $resultedStudent = $this->studentFactory->getById($id);
+            $this->assertEquals($this->arrayOfStudents[$i], $resultedStudent);
+        }
     }
 
 }
