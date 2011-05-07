@@ -16,8 +16,11 @@ require_once("../classes/studentfactory.php");
 class StudentFactoryTest extends PHPUnit_Framework_TestCase {
 
     public static $database;
-    protected $studentFactory;
 
+    protected $studentFactory;
+    protected $arrayOfStudents;
+    protected $studentCount = 50;
+    
     public static function setUpBeforeClass() {
         global $dbConfig;
         self::$database = new Database($dbConfig, true);
@@ -32,6 +35,13 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
 
     protected function setUp() {
         $this->studentFactory = new StudentFactory(self::$database);
+        $this->arrayOfStudents = array();
+
+        for($i = 0; $i < $this->studentCount; ++$i) {
+            $s = new Student();
+            $s->name = "Rado" . $i;
+            $this->arrayOfStudents[] = $s;
+        }
     }
 
     public function testGetAllMethodOnEmptyDatabase() {
@@ -41,18 +51,17 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testCreateMethodOnEmptyDatabase() {
-        $name1 = "Rado1";
-        $name2 = "Rado2";
-        $name3 = "Rado3";
+        for($i = 0; $i < $this->studentCount; ++$i) {
+            $name = $this->arrayOfStudents[$i]->name;
+            $id = $this->studentFactory->createStudent($name);
+            $this->assertEquals (($i + 1), $id);
+        }
+    }
 
-        $firstId = $this->studentFactory->createStudent($name1);
-        $this->assertEquals(1, $firstId);
+    public function testGetAllMethodOnNonEmptyDatabaseAfterCreateMethod() {
+        $students = $this->studentFactory->getAll();
 
-        $secondId = $this->studentFactory->createStudent($name2);
-        $this->assertEquals(2, $secondId);
-
-        $thirdId = $this->studentFactory->createStudent($name3);
-        $this->assertEquals(3, $thirdId);
+        $this->assertEquals(count($this->arrayOfStudents), count($students));
     }
 
 }

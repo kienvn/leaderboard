@@ -20,7 +20,7 @@ class StudentFactory extends DatabaseAware {
     }
 
     public function getAll() {
-        $sql = "SELECT id,name,fn
+        $sql = "SELECT id,name,fn,email
                 FROM students";
         $res = $this->database->query($sql);
 
@@ -107,7 +107,7 @@ class StudentFactory extends DatabaseAware {
                 $this->extract($row, "id"),
                 $this->extract($row, "name"),
                 $this->extract($row, "fn"),
-                "" // no email for now :)
+                $this->extract($row, "email") // no email for now :)
         );
     }
 
