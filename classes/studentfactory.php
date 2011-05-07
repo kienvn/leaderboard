@@ -49,7 +49,7 @@ class StudentFactory extends DatabaseAware {
         $sql = sprintf($sql, $name);
         $this->database->query($sql);
         // get the newly created ID
-        return $this->database->insert_id();
+        return $this->database->lastInsertedId();
     }
 
     public function deleteStudent($studentId) {

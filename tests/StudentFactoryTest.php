@@ -31,11 +31,28 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
     }
 
     protected function setUp() {
-        // todo
+        $this->studentFactory = new StudentFactory(self::$database);
     }
 
-    public function testSomething() {
-        $this->assertEquals(TRUE, TRUE);
+    public function testGetAllMethodOnEmptyDatabase() {
+        $students = $this->studentFactory->getAll();
+
+        $this->assertEquals(array(), $students);
+    }
+
+    public function testCreateMethodOnEmptyDatabase() {
+        $name1 = "Rado1";
+        $name2 = "Rado2";
+        $name3 = "Rado3";
+
+        $firstId = $this->studentFactory->createStudent($name1);
+        $this->assertEquals(1, $firstId);
+
+        $secondId = $this->studentFactory->createStudent($name2);
+        $this->assertEquals(2, $secondId);
+
+        $thirdId = $this->studentFactory->createStudent($name3);
+        $this->assertEquals(3, $thirdId);
     }
 
 }
