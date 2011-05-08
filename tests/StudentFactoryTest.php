@@ -58,6 +58,14 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
         }
     }
 
+    public function testDeleteMethodOnEmptyDatabase() {
+        for ($i = 0; $i < $this->studentCount; ++$i) {
+            $id = $i + 1;
+            $res = $this->studentFactory->deleteStudent($id);
+            $this->assertEquals(TRUE, $res);
+        }
+    }
+
     public function testCreateMethodOnEmptyDatabase() {
         for ($i = 0; $i < $this->studentCount; ++$i) {
             $name = $this->arrayOfStudents[$i]->name;
@@ -78,6 +86,14 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
             $resultedStudent = $this->studentFactory->getById($id);
             $this->assertEquals($this->arrayOfStudents[$i], $resultedStudent);
         }
+    }
+
+    public function testDeleteMethodOnNonEmptyDatabaseWithRecordsOnlyInStudents() {
+        $id = 5;
+        $this->assertEquals($this->arrayOfStudents[$id-1], $this->studentFactory->getById($id));
+        $res = $this->studentFactory->deleteStudent($id);
+        $this->assertEquals(TRUE, $res);
+        $this->assertEquals(NULL, $this->studentFactory->getById($id));
     }
 
 }
