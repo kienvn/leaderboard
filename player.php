@@ -29,8 +29,8 @@ if (isset($_GET["pid"]) && !empty($_GET["pid"])) {
 
     // calculate the total score
     $score = 0.0;
-    foreach($history as $key => $value) {
-        foreach($value as $historyObj) {
+    foreach($history as $lectureNumber => $arrayOfHistoryObjects) {
+        foreach($arrayOfHistoryObjects as $historyObj) {
             $score += $historyObj->points;
         }
     }
