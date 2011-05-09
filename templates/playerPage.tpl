@@ -19,17 +19,25 @@
             <div id="lectureDiv">
                     {foreach $v as $hist}
                         {if $hist->type eq 'question'}
-                        <img title="Въпрос" alt="Въпрос" src="images/question_btn50p.png" />
+                <img title="Въпрос" alt="Въпрос {$hist->points}" src="images/question_btn50p.png" />
                         {elseif $hist->type eq 'answer'}
-                        <img title="Отговор" alt="Отговор" src="images/answer_btn50p.png" />
+                <img title="Отговор" alt="Отговор {$hist->points}" src="images/answer_btn50p.png" />
                         {elseif $hist->type eq 'homework'}
-                        <img title="Домашно" alt="Домашно" src="images/homework_btn50p.png" />
+                <img title="Домашно" alt="Домашно {$hist->points}" src="images/homework_btn50p.png" />
                         {/if}
                     {/foreach}
                 <br />
                 {/strip}
             </div>
             {/foreach}
+            Общо:
+            <div id="totalDiv">
+                Общо Въпроси : {$totalQuestions}
+                <br />
+                Общо Отговори : {$totalAnswers}
+                <br />
+                Общо Домашни : {$totalHomeworks}
+            </div>
         </div>
     </body>
 </html>

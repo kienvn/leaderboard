@@ -5,6 +5,13 @@
     border-style: solid;
 }
 
+#totalDiv {
+    padding: 5px;
+    margin-bottom: 1em;
+    border-color: #F6790C;
+    border-style: solid;
+}
+
 #playerName {
     font-weight: bold;
     font-size: 24px;

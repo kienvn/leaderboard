@@ -29,16 +29,37 @@ if (isset($_GET["pid"]) && !empty($_GET["pid"])) {
 
     // calculate the total score
     $score = 0.0;
-    foreach($history as $lectureNumber => $arrayOfHistoryObjects) {
-        foreach($arrayOfHistoryObjects as $historyObj) {
+    $totalQuestions = 0;
+    $totalAnswers = 0;
+    $totalHomeworks = 0;
+
+    foreach ($history as $lectureNumber => $arrayOfHistoryObjects) {
+        foreach ($arrayOfHistoryObjects as $historyObj) {
             $score += $historyObj->points;
+            switch ($historyObj->type) {
+                case "question":
+                    $totalQuestions++;
+                    break;
+                case "answer" :
+                    $totalAnswers++;
+                    break;
+                case "homework" :
+                    $totalHomeworks++;
+                    break;
+                default:
+                    break;
+            }
         }
     }
-    
+
     $smarty->assign("playerName", $student->name);
     $smarty->assign("history", $history);
     $smarty->assign("totalScore", $score);
-    
+    $smarty->assign("totalQuestions", $totalQuestions);
+    $smarty->assign("totalAnswers", $totalAnswers);
+    $smarty->assign("totalHomeworks", $totalHomeworks);
+
+
     $page = "playerPage.tpl";
 } else {
     $error = "No player selected";
