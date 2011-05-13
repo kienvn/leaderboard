@@ -58,6 +58,15 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
         }
     }
 
+    public function testGetIdByNameMethodOnEmptyDatabase() {
+        for ($i = 0; $i < $this->studentCount; ++$i) {
+            $name = $this->arrayOfStudents[$i]->name;
+            $resultedId = $this->studentFactory->getIdByName($name);
+
+            $this->assertEquals(-1, $resultedId);
+        }
+    }
+
     public function testDeleteMethodOnEmptyDatabase() {
         for ($i = 0; $i < $this->studentCount; ++$i) {
             $id = $i + 1;
@@ -88,9 +97,18 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
         }
     }
 
+    public function testGetIdByNameMethodAfterCreateMethod() {
+        for ($i = 0; $i < $this->studentCount; ++$i) {
+            $name = $this->arrayOfStudents[$i]->name;
+            $resultedId = $this->studentFactory->getIdByName($name);
+
+            $this->assertEquals(($i+1), $resultedId);
+        }
+    }
+
     public function testDeleteMethodOnNonEmptyDatabaseWithRecordsOnlyInStudents() {
         $id = 5;
-        $this->assertEquals($this->arrayOfStudents[$id-1], $this->studentFactory->getById($id));
+        $this->assertEquals($this->arrayOfStudents[$id - 1], $this->studentFactory->getById($id));
         $res = $this->studentFactory->deleteStudent($id);
         $this->assertEquals(TRUE, $res);
         $this->assertEquals(NULL, $this->studentFactory->getById($id));
