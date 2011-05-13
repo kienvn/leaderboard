@@ -54,5 +54,6 @@
 
             </tbody>
         </table>
+        {include file="footer.tpl"}
     </body>
 </html>
