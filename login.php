@@ -14,9 +14,15 @@ $auth = new Authentication($database);
 $smarty = new Smarty();
 $smarty->setTemplateDir("templates");
 
+$loginTpl = "loginForm.tpl";
+
 if (isset($_GET["logout"])) {
     $auth->logout();
-    Navigation::go("index.php");
+    Navigation::go(Navigation::$INDEX_PAGE);
+}
+
+if($auth->checkLogin()) {
+    Navigation::go(Navigation::$ADMIN_PAGE);
 }
 
 $errorText = "";
@@ -31,9 +37,9 @@ if (isset($_POST["loginForm"])) {
     if ($res == FALSE) {
         $errorText = "Wrong credentials";
     } else {
-        Navigation::go("adminPage.php");
+        Navigation::go(Navigation::$ADMIN_PAGE);
     }
 }
 
 $smarty->assign("errorText", $errorText);
-$smarty->display("loginForm.tpl");
+$smarty->display($loginTpl);
