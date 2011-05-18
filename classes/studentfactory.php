@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This class is responsible for different logic connected to the players (students)
+ * This class is responsible for different logic related to the players (students)
  *
  * @author radoslav
  */
@@ -10,6 +10,13 @@ class StudentFactory extends DatabaseAware {
     // ----------------------------------------
     // PUBLIC METHODS
     // ----------------------------------------
+    
+    /**
+     * Returns a student that matches the given id
+     * @param <int> $id - the id of the student in the database
+     * @return <Student> returns a newly Created Student object but without the points
+     * NULL is returned if no student is found
+     */
     public function getById($id) {
         $sql = "SELECT id,name,fn,email
                 FROM students
@@ -22,6 +29,10 @@ class StudentFactory extends DatabaseAware {
         return $this->createStudentFromRow($row);
     }
 
+    /**
+     * Fetches all records for the students
+     * @return <array of Student objects>
+     */
     public function getAll() {
         $sql = "SELECT id,name,fn,email
                 FROM students";
@@ -34,6 +45,12 @@ class StudentFactory extends DatabaseAware {
         return $students;
     }
 
+    /**
+     * Returns a student's id from the database by its name
+     * @param <string> $name - the name of the searched student
+     * @return <int> returns the found id
+     * or -1 if not found
+     */
     public function getIdByName($name) {
         $sql = "SELECT COUNT(id) AS OK, id
                 FROM students
@@ -46,6 +63,13 @@ class StudentFactory extends DatabaseAware {
         return $row["OK"] == 1 ? $row["id"] : -1;
     }
 
+    /**
+     * Creates a new record for a student in the database
+     * @param <string> $name - the name of the student
+     * @param <string> $fn - the faculty number of the student
+     * @param <string> $email - the email of the student
+     * @return <int> - the newly created id
+     */
     public function createStudent($name, $fn, $email) {
         $sql = "INSERT INTO students(name,fn,email)
                 VALUES('%s', '%s', '%s')";
@@ -55,6 +79,13 @@ class StudentFactory extends DatabaseAware {
         return $this->database->lastInsertedId();
     }
 
+    /**
+     * Deletes a student from the database and all related to him information
+     * The deletion is made via a database transaction
+     * @param <int> $studentId
+     * @return <bool> TRUE if deleted or FALSE if it was not found or any problem occured
+     * If there is a problem, the transaction is rollbacked
+     */
     public function deleteStudent($studentId) {
         $sqlStudents = "DELETE FROM students
                         WHERE id = %d
@@ -86,6 +117,12 @@ class StudentFactory extends DatabaseAware {
         }
     }
 
+    /**
+     * Not implemented yet
+     * @param <string> $mergeThis - the name of the merging student
+     * @param <string> $intoThis - the name of the original student
+     * @return <bool>
+     */
     public function mergeStudents($mergeThis, $intoThis) {
         if ($mergeThis == $intoThis) {
             return FALSE;
