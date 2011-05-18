@@ -40,6 +40,9 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
             $s = new Student();
             $s->name = "Rado" . $i;
             $s->id = $i + 1;
+            $s->email = "rado@rado.com";
+            $s->facultyNumber = "Rado" . $i;
+            
             $this->arrayOfStudents[] = $s;
         }
     }
@@ -78,7 +81,10 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
     public function testCreateMethodOnEmptyDatabase() {
         for ($i = 0; $i < $this->studentCount; ++$i) {
             $name = $this->arrayOfStudents[$i]->name;
-            $id = $this->studentFactory->createStudent($name);
+            $fn = $this->arrayOfStudents[$i]->facultyNumber;
+            $email = $this->arrayOfStudents[$i]->email;
+
+            $id = $this->studentFactory->createStudent($name, $fn, $email);
             $this->assertEquals(($i + 1), $id);
         }
     }
@@ -112,6 +118,17 @@ class StudentFactoryTest extends PHPUnit_Framework_TestCase {
         $res = $this->studentFactory->deleteStudent($id);
         $this->assertEquals(TRUE, $res);
         $this->assertEquals(NULL, $this->studentFactory->getById($id));
+    }
+
+    public function testStudentObjectFromDatabaseMembersDataType() {
+        $id = 1;
+        $s = $this->studentFactory->getById($id);
+
+        $this->assertType("int", $s->id);
+        $this->assertType("float", $s->score);
+        $this->assertType("string", $s->facultyNumber);
+        $this->assertType("string", $s->email);
+        $this->assertType("string", $s->name);
     }
 
 }

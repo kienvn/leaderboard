@@ -23,7 +23,7 @@ class Student {
         $this->name = $name;
         $this->facultyNumber = $fn;
         $this->email = $email;
-        $this->score = 0;
+        $this->score = 0.0;
     }
 
     // ----------------------------------------

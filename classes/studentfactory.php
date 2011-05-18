@@ -16,7 +16,7 @@ class StudentFactory extends DatabaseAware {
                 WHERE id = " . $id . " LIMIT 1";
         $res = $this->database->query($sql);
         $row = $this->database->fetchAssoc($res);
-        if(!$row) {
+        if (!$row) {
             return NULL;
         }
         return $this->createStudentFromRow($row);
@@ -46,10 +46,10 @@ class StudentFactory extends DatabaseAware {
         return $row["OK"] == 1 ? $row["id"] : -1;
     }
 
-    public function createStudent($name) {
-        $sql = "INSERT INTO students(name)
-                VALUES('%s')";
-        $sql = sprintf($sql, $name);
+    public function createStudent($name, $fn, $email) {
+        $sql = "INSERT INTO students(name,fn,email)
+                VALUES('%s', '%s', '%s')";
+        $sql = sprintf($sql, $name, $fn, $email);
         $this->database->query($sql);
         // get the newly created ID
         return $this->database->lastInsertedId();
@@ -107,7 +107,7 @@ class StudentFactory extends DatabaseAware {
     // ----------------------------------------
     private function createStudentFromRow($row) {
         return new Student(
-                $this->extract($row, "id"),
+                (int) $this->extract($row, "id"),
                 $this->extract($row, "name"),
                 $this->extract($row, "fn"),
                 $this->extract($row, "email") // no email for now :)
