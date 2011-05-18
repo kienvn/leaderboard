@@ -65,6 +65,7 @@ class Authentication extends DatabaseAware {
 
     public function logout() {
         unset($_SESSION["userId"]);
+        unset($_SESSION["token"]);
         session_destroy();
         header("Location : index.php");
     }
