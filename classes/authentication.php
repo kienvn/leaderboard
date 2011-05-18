@@ -43,10 +43,13 @@ class Authentication extends DatabaseAware {
     }
 
     public function checkLogin() {
-        return
-        isset($_SESSION["userId"])
-        &&
-        $_SESSION["userId"] > 0;
+        if (!isset($_SESSION["userId"]) || !isset($_SESSION["token"]) || $_SESSION["userId"] <= 0) {
+            return FALSE;
+        }
+        $id = $_SESSION["userId"];
+        $token = $_SESSION["token"];
+
+        return $this->checkToken($id, $token);
     }
 
     public function getLastLoginTime($studentId) {
@@ -121,6 +124,7 @@ class Authentication extends DatabaseAware {
                 LIMIT 1";
         $sql = sprintf($sql, $token, $studentId);
         $this->database->query($sql);
+        $_SESSION["token"] = $token;
     }
 
 }
