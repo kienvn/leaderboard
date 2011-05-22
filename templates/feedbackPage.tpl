@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <htmL>
     <head>
-        <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <link href="styles/feedback.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="{$imagesFolder}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link href="{$cssFolder}/feedback.css" rel="stylesheet" type="text/css" media="screen" />
     </head>
     <body>
         <form method="post" action="feedback.php">

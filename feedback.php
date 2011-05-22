@@ -10,5 +10,9 @@ require_once("config/database_config.php");
 $smarty = new Smarty();
 $feedbackPage = "feedbackPage.tpl";
 
-$smarty->setTemplateDir("templates");
+$fs = FolderStructure::getInstance();
+
+$smarty->setTemplateDir($fs->getTemplatesFolder());
+$smarty->assign("imagesFolder", $fs->getImagesFolder());
+$smarty->assign("cssFolder", $fs->getCSSFolder());
 $smarty->display($feedbackPage);
