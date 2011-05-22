@@ -14,15 +14,33 @@ $database->setEncoding("UTF8");
 $game = new Game($database);
 $students = array();
 
-if (isset($_GET["lecture"]) && !empty($_GET["lecture"])) {
+function getFilterType() {
+    if (isset($_GET["lecture"]) && !empty($_GET["lecture"])) {
+        return "lecture";
+    }
 
-    $getLecture = (int) $_GET["lecture"];
-    $students = $game->leaderboard("lecture", $getLecture);
-} else if (isset($_GET["homework"]) && !empty($_GET["homework"])) {
-    $getHomework = (int) $_GET["homework"];
-    $students = $game->leaderboard("homework", $getHomework);
-} else {
-    $students = $game->leaderboard();
+    if (isset($_GET["homework"]) && !empty($_GET["homework"])) {
+        return "homework";
+    }
+
+    return "default";
+}
+
+switch (getFilterType ()) {
+    case "lecture":
+        $getLecture = (int) $_GET["lecture"];
+        $students = $game->leaderboard("lecture", $getLecture);
+        break;
+    case "homework" :
+        $getHomework = (int) $_GET["homework"];
+        $students = $game->leaderboard("homework", $getHomework);
+        break;
+    case "default" :
+        $students = $game->leaderboard();
+        break;
+    default:
+        $students = $game->leaderboard();
+        break;
 }
 
 $lectures = $game->getLectures();
