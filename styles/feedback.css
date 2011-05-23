@@ -1,3 +1,9 @@
+/*body {
+    background-image: url("../images/background.png");
+    background-attachment: fixed;
+    padding: 0px;
+    margin: 0px;
+}*/
 form fieldset {
     clear: both;
     font-size: 100%;

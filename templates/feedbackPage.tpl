@@ -26,11 +26,22 @@
             </fieldset>
             <fieldset>
                 <legend>Верификация</legend>
-                Място за CAPTCHA
+                Изберете преподавателя ;)
+                <br />
+                {foreach from=$captchaImages key=value item=image name=foo}
+                {strip}
+                <input type="radio" name="captcha[]" value="{$value}" />
+                <img src="{$image}" />
+                {if ($smarty.foreach.foo.index + 1) % 2 == 0}
+                <br />
+                {/if}
+                {/strip}
+                {/foreach}
             </fieldset>
             <hr />
             <input type="submit" value="Давам своята обратна връзка" name="feedbackForm" />
         </form>
+
         {include file="footer.tpl"}
     </body>
 </htmL>
