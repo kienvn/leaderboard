@@ -5,6 +5,8 @@
         <link href="{$cssFolder}/feedback.css" rel="stylesheet" type="text/css" media="screen" />
     </head>
     <body>
+        <p class="success">{$successMessage}</p>
+        <p class="error">{$errorMessage}</p>
         <form method="post" action="feedback.php">
             <fieldset>
                 <legend>Мнение</legend>
@@ -19,10 +21,10 @@
             <fieldset>
                 <legend>Няколко тикчета</legend>
                 Харесва ми идеята с Leaderboard-a :
-                <input type="checkbox" value="leaderboard" />
+                <input name="likedLeaderboard" type="checkbox" value="leaderboard" />
                 <br />
                 Научих интересни и полезни неща :
-                <input type="checkbox" value="learned" />
+                <input name="learnedSomething" type="checkbox" value="learned" />
             </fieldset>
             <fieldset>
                 <legend>Верификация</legend>

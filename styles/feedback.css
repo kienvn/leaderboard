@@ -24,9 +24,19 @@ form fieldset legend {
 
 form textarea {
     width: 350px;
-    height: 200px;
+    height: 150px;
 }
 
 label {
     font-size: 100%;
+}
+
+.error {
+    color : red;
+    font-weight: bold;
+}
+
+.success {
+    color : green;
+    font-weight: bold;
 }
