@@ -14,7 +14,7 @@
                 <br />
                 <input type="text" name="nameInput" />
                 <br />
-                <label for="opinionInput">Твоето мнение ? :) (около 500 символа)</label>
+                <label for="opinionInput">Твоето мнение относно курса ? :) (около 500 символа)</label>
                 <br />
                 <textarea name="opinionInput"></textarea>
             </fieldset>
@@ -28,7 +28,7 @@
             </fieldset>
             <fieldset>
                 <legend>Верификация</legend>
-                Изберете преподавателя ;)
+                <strong>За верификация, изберете човек от преподавателския колектив ;)</strong>
                 <br />
                 {foreach from=$captchaImages key=value item=image name=foo}
                 {strip}
