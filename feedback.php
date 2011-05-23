@@ -8,15 +8,19 @@ require_once("config/database_config.php");
 
 
 $smarty = new Smarty();
-$feedbackPage = "feedbackPage.tpl";
-
 $fs = FolderStructure::getInstance();
-
 $captcha = new VisualCaptcha();
-$captcha->setImagesFolder($fs->getImagesFolder() . DIRECTORY_SEPARATOR . "captcha");
-$captcha->setCorrectImageNames(array("ivaylo.png", "rado.jpg", "emo.jpg", "nikolay.jpg"));
 
+$feedbackPage = "feedbackPage.tpl";
+$imagesFolder = $fs->getImagesFolder();
+
+
+$captcha->setImagesFolder($imagesFolder . DIRECTORY_SEPARATOR . "captcha");
+$captcha->setCorrectImageNames(array("ivaylo.png", "rado.jpg", "emo.jpg", "nikolay.jpg", "joro.jpg"));
+
+// generate 4 random images where one is correct
 $files = $captcha->generate(4);
+
 unset($_SESSION["captcha"]);
 
 $radioButtonValues = array();
@@ -24,7 +28,7 @@ $seedForRandomToken = "abcdefghijklmnopqrstuvw0123456789";
 $correct = $captcha->getLastCorrect();
 
 foreach($files as $image) {
-    $token = new Token($seedForRandomToken, 10);
+    $token = new Token($seedForRandomToken, 10/*10 chars long*/);
     $randomValue = md5($token->getString());
     
     if($image === $correct) {
@@ -35,7 +39,7 @@ foreach($files as $image) {
 
 
 $smarty->setTemplateDir($fs->getTemplatesFolder());
-$smarty->assign("imagesFolder", $fs->getImagesFolder());
+$smarty->assign("imagesFolder", $imagesFolder);
 $smarty->assign("cssFolder", $fs->getCSSFolder());
 $smarty->assign("captchaImages", $radioButtonValues);
 $smarty->display($feedbackPage);
