@@ -37,7 +37,7 @@ if (isset($_POST["feedbackForm"]) && !empty($_POST["feedbackForm"])) {
 
             $name = substr($name, 0, 255);
             $name = $database->escape($name, $xtraEscapingFunctions);
-            $opinion = substr($opinion, 0, 500);
+            $opinion = substr($opinion, 0, 3000);
             $opinion = $database->escape($opinion, $extraEscapingFunctions);
             $timeStamp = time();
 

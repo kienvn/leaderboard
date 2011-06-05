@@ -14,7 +14,7 @@
                 <br />
                 <input type="text" name="nameInput" />
                 <br />
-                <label for="opinionInput">Твоето мнение относно курса ? :) (около 500 символа)</label>
+                <label for="opinionInput">Твоето мнение относно курса ? :) (около 3000 символа)</label>
                 <br />
                 <textarea name="opinionInput"></textarea>
             </fieldset>
