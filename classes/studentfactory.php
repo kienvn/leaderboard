@@ -18,7 +18,7 @@ class StudentFactory extends DatabaseAware {
      * NULL is returned if no student is found
      */
     public function getById($id) {
-        $sql = "SELECT id,name,fn,email
+        $sql = "SELECT id,name
                 FROM students
                 WHERE id = " . $id . " LIMIT 1";
         $res = $this->database->query($sql);
@@ -34,7 +34,7 @@ class StudentFactory extends DatabaseAware {
      * @return <array of Student objects>
      */
     public function getAll() {
-        $sql = "SELECT id,name,fn,email
+        $sql = "SELECT id,name
                 FROM students";
         $res = $this->database->query($sql);
 
@@ -71,9 +71,9 @@ class StudentFactory extends DatabaseAware {
      * @return <int> - the newly created id
      */
     public function createStudent($name, $fn, $email) {
-        $sql = "INSERT INTO students(name,fn,email)
+        $sql = "INSERT INTO students(name,email,faculty_number)
                 VALUES('%s', '%s', '%s')";
-        $sql = sprintf($sql, $name, $fn, $email);
+        $sql = sprintf($sql, $name, $email, $fn);
         $this->database->query($sql);
         // get the newly created ID
         return $this->database->lastInsertedId();

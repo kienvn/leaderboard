@@ -2,9 +2,9 @@
 
 require_once("config/main_config.php");
 
-spl_autoload_register("radoDev_autoload");
+spl_autoload_register("php2012_autoload");
 
-function radoDev_autoload($className) {
+function php2012_autoload($className) {
     global $configuration;
 
     // adapt the class name to the file name

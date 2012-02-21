@@ -29,8 +29,6 @@
 
         <br />
         <strong>Виж точките за домашно :</strong>
-        <a href="?homework=3">Първо домашно</a>
-        <a href="?homework=4">Второ домашно</a>
         <table>
             <thead>
                 <tr>

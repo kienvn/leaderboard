@@ -17,7 +17,7 @@
 	 * If other behaviour is desired, write a function and change the ADAPT_FUNCTION parameter value
 	 */
 	$configuration["PRODUCTION"] = false;
-	$configuration["FOLDER_AFTER_DOC_ROOT"] = "leaderboard";
+	$configuration["FOLDER_AFTER_DOC_ROOT"] = "php2012/leaderboard";
 	$configuration["ADAPT_FUNCTION"] = "leaderboard_adaptClassName";
 
 	function leaderboard_adaptClassName($className) {
