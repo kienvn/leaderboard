@@ -1,11 +1,8 @@
 <?php
-
 session_start();
 header("Content-Type: text/html; charset=utf-8");
+require_once "includes.php";
 
-require_once("classes/Smarty.class.php");
-require_once("class_loader.php");
-require_once("config/database_config.php");
 
 function feedback_check($arr, $values) {
     foreach ($values as $val) {
@@ -25,8 +22,6 @@ if (isset($_POST["feedbackForm"]) && !empty($_POST["feedbackForm"])) {
     $captcha = array_shift($_POST["captcha"]);
     if (isset($_SESSION["captcha"]) && $captcha == $_SESSION["captcha"]) {
         if (feedback_check($_POST, array("nameInput", "opinionInput"))) {
-            $database = new Database($dbConfig);
-            $database->setEncoding("UTF8");
             $name = $_POST["nameInput"];
             $opinion = $_POST["opinionInput"];
 
