@@ -11,18 +11,14 @@ class Student {
     // ----------------------------------------
     public $id; /*database id*/
     public $name;
-    public $facultyNumber;
-    public $email;
     public $score;
 
     // ----------------------------------------
     // CONSTRUCTOR
     // ----------------------------------------
-    public function __construct($id = -1, $name = "", $fn = "", $email = "") {
+    public function __construct($id = -1, $name = "") {
         $this->id = $id;
         $this->name = $name;
-        $this->facultyNumber = $fn;
-        $this->email = $email;
         $this->score = 0.0;
     }
 
