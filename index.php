@@ -4,7 +4,7 @@ header("Content-Type: text/html; charset=utf-8");
 
 require_once("classes/Smarty.class.php");
 require_once("class_loader.php");
-require_once("config/database_config.php");
+require_once("config/db_config.php");
 
 
 // this object can be accessed in methods or functions by calling global $database;
@@ -34,9 +34,6 @@ switch (getFilterType ()) {
     case "homework" :
         $getHomework = (int) $_GET["homework"];
         $students = $game->leaderboard("homework", $getHomework);
-        break;
-    case "default" :
-        $students = $game->leaderboard();
         break;
     default:
         $students = $game->leaderboard();
